@@ -1,16 +1,8 @@
 # Galaxy Profile README Configuration
 # Copy this file to config.yml and customize it to make it your own!
-#
-# Usage:
-#   cp config.example.yml config.yml
-#   # Edit config.yml with your details
-#   python -m generator.main
-#
-# Demo mode (no API calls, uses this file directly):
-#   python -m generator.main --demo
 
 # Your GitHub username (required)
-username: galaxy-dev
+username: itismejao
 
 # Profile information displayed in the galaxy header
 profile:
@@ -62,12 +54,12 @@ galaxy_arms:
 #   arm: 0-2                  — Which galaxy arm to associate with (index)
 #   description: "..."        — Short description shown on the card
 projects:
-  - repo: "galaxy-dev/nebula-ui"
+  - repo: "itismejao/share_stories"
     arm: 0
-    description: "A component library with cosmic design tokens and dark-first theming."
-  - repo: "galaxy-dev/stargate-api"
+    description: "A plugin designed to share yor media in stories on Instagram/Facebook and reels on Facebook."
+  - repo: "itismejao/gpp-flutter"
     arm: 1
-    description: "High-performance API gateway with built-in observability and caching."
+    description: "A parts, inventory, and logistics management system for Novo Mundo.com using Flutter Web on the front-end and Laravel on the back-end."
 
 # Theme color overrides (optional — defaults to deep space palette)
 # All values must be valid hex color codes (#RRGGBB)
