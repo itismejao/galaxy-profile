@@ -67,6 +67,27 @@ class TestSVGBuilder:
         assert "GitHub Stats" in svg  # section header
 
 
+class TestSocialChips:
+    def test_chips_built_from_config(self, cfg, sample_stats, sample_languages):
+        cfg.setdefault("social", {})["linkedin_url"] = "https://linkedin.com/in/x"
+        config = validate_config(cfg)
+        builder = SVGBuilder(config, sample_stats, sample_languages)
+        chips = builder.social_chips()
+        keys = [c["key"] for c in chips]
+        assert "github" in keys          # always present (derived from username)
+        assert "linkedin" in keys        # present because a url was configured
+        assert all(c.get("url") for c in chips)
+
+    def test_render_chips_valid_svg(self, cfg, sample_stats, sample_languages):
+        config = validate_config(cfg)
+        builder = SVGBuilder(config, sample_stats, sample_languages)
+        svgs = builder.render_social_chips()
+        assert "link-github.svg" in svgs
+        for svg in svgs.values():
+            assert svg.strip().startswith("<svg")
+            assert svg.strip().endswith("</svg>")
+
+
 class TestTerminalUptime:
     def test_uptime_from_born_date(self, cfg, sample_stats, sample_languages):
         cfg["terminal"] = {"born": "2019-01-01"}

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="330" height="92" viewBox="0 0 330 92">
+  <defs>
+    <style>
+      .tw { animation: tw 4s ease-in-out infinite; }
+      @keyframes tw { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.5; } }
+      .beacon { animation: beacon 2.2s ease-in-out infinite; }
+      @keyframes beacon { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+      .chip:hover .plate { stroke-opacity: 0.9; }
+    </style>
+    <clipPath id="clip-linkedin">
+      <rect x="1" y="1" width="328" height="90" rx="14" ry="14"/>
+    </clipPath>
+    <radialGradient id="node-linkedin" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4d9fff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#4d9fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <g class="chip">
+    <rect x="1" y="1" width="328" height="90" rx="14" ry="14"
+          fill="#080c14" stroke="#1a2332" stroke-width="1"/>
+    <g clip-path="url(#clip-linkedin)">
+    <circle cx="305.8" cy="46.8" r="0.40" fill="#ffffff" opacity="0.32" class="tw" style="animation-delay:0.6s"/>
+    <circle cx="39.6" cy="20.6" r="0.53" fill="#ffffff" opacity="0.37" class="tw" style="animation-delay:0.8s"/>
+    <circle cx="285.1" cy="45.7" r="1.02" fill="#ffffff" opacity="0.32" class="tw" style="animation-delay:0.3s"/>
+    <circle cx="16.9" cy="82.4" r="0.42" fill="#ffffff" opacity="0.30" class="tw" style="animation-delay:1.2s"/>
+    <circle cx="96.5" cy="44.1" r="0.92" fill="#ffffff" opacity="0.43" class="tw" style="animation-delay:0.4s"/>
+    <circle cx="92.9" cy="69.8" r="0.69" fill="#ffffff" opacity="0.39" class="tw" style="animation-delay:0.1s"/>
+    <circle cx="17.5" cy="60.1" r="0.82" fill="#ffffff" opacity="0.41" class="tw" style="animation-delay:1.1s"/>
+    <circle cx="17.5" cy="43.4" r="1.07" fill="#ffffff" opacity="0.16" class="tw" style="animation-delay:0.2s"/>
+    <circle cx="202.3" cy="47.7" r="0.36" fill="#ffffff" opacity="0.41" class="tw" style="animation-delay:1.0s"/>
+    <circle cx="157.1" cy="60.1" r="0.35" fill="#ffffff" opacity="0.36" class="tw" style="animation-delay:1.0s"/>
+    <circle cx="279.5" cy="27.3" r="0.35" fill="#ffffff" opacity="0.41" class="tw" style="animation-delay:0.3s"/>
+    <circle cx="184.6" cy="6.7" r="0.60" fill="#ffffff" opacity="0.22" class="tw" style="animation-delay:1.0s"/>
+    <circle cx="6.6" cy="19.6" r="0.81" fill="#ffffff" opacity="0.21" class="tw" style="animation-delay:0.4s"/>
+    <circle cx="37.1" cy="22.6" r="0.73" fill="#ffffff" opacity="0.26" class="tw" style="animation-delay:0.1s"/>
+    <circle cx="47.8" cy="25.5" r="0.72" fill="#ffffff" opacity="0.42" class="tw" style="animation-delay:0.3s"/>
+    <circle cx="76.1" cy="16.6" r="0.80" fill="#ffffff" opacity="0.35" class="tw" style="animation-delay:0.2s"/>
+      <rect class="plate" x="1" y="1" width="328" height="90" rx="14" ry="14"
+            fill="none" stroke="#4d9fff" stroke-width="1" stroke-opacity="0.4"/>
+      <rect x="1" y="1" width="5" height="90" fill="#4d9fff" opacity="0.55"/>
+    </g>
+
+    <!-- signal node -->
+    <circle cx="48" cy="46" r="26" fill="url(#node-linkedin)"/>
+    <circle cx="48" cy="46" r="20" fill="#0f1623" stroke="#4d9fff" stroke-width="1.2" opacity="0.9"/>
+    <svg x="36" y="34" width="24" height="24" viewBox="0 0 24 24" fill="#4d9fff"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+
+    <!-- beacon -->
+    <circle class="beacon" cx="312" cy="18" r="3" fill="#4d9fff"/>
+
+    <!-- text -->
+    <text x="86" y="38" fill="#4d9fff" font-size="16" font-weight="bold" font-family="monospace">LinkedIn</text>
+    <text x="86" y="57" fill="#f1f5f9" font-size="12" font-family="monospace">Jo&#227;o Marcos</text>
+    <text x="86" y="74" fill="#64748b" font-size="10" font-family="monospace" font-style="italic">professional orbit</text>
+  </g>
+</svg>

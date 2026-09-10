@@ -6,7 +6,7 @@ green/red Lines-of-Code split), the way `neofetch` prints on a login shell.
 Lines fade in sequentially with a blinking cursor to sell the "printing" feel.
 """
 
-from generator.utils import esc
+from generator.utils import esc, deterministic_random
 
 WIDTH = 1000
 PAD_TOP = 40
@@ -22,6 +22,36 @@ ASCII_FS = 15
 
 LOC_ADD = "#3fb950"  # github green
 LOC_DEL = "#f85149"  # github red
+
+
+def _starfield(seed, width, height, theme):
+    """Twinkling star layers matching the galaxy header's background."""
+    layers = [
+        {"count": 60, "lbl": "bg", "r": (0.3, 0.9), "o": (0.06, 0.28)},
+        {"count": 28, "lbl": "mid", "r": (0.6, 1.2), "o": (0.12, 0.45)},
+        {"count": 12, "lbl": "fg", "r": (1.0, 1.7), "o": (0.35, 0.65)},
+    ]
+    accent = {
+        0: theme.get("synapse_cyan", "#00d4ff"),
+        5: theme.get("dendrite_violet", "#a78bfa"),
+        9: theme.get("axon_amber", "#ffb020"),
+    }
+    out = []
+    for L in layers:
+        n, lbl = L["count"], L["lbl"]
+        sx = deterministic_random(f"{seed}_x_{lbl}", n, 8, width - 8)
+        sy = deterministic_random(f"{seed}_y_{lbl}", n, 8, height - 8)
+        sr = deterministic_random(f"{seed}_r_{lbl}", n, L["r"][0], L["r"][1])
+        so = deterministic_random(f"{seed}_o_{lbl}", n, L["o"][0], L["o"][1])
+        sd = deterministic_random(f"{seed}_d_{lbl}", n, 0.0, 4.0)
+        for i in range(n):
+            fill = accent.get(i % 13, "#ffffff")
+            out.append(
+                f'    <circle cx="{sx[i]:.1f}" cy="{sy[i]:.1f}" r="{sr[i]:.2f}" '
+                f'fill="{fill}" opacity="{so[i]:.2f}" class="star-{lbl}" '
+                f'style="animation-delay:{sd[i] * 0.3:.1f}s"/>'
+            )
+    return "\n".join(out)
 
 
 def _leader(y, label, value, value_color, theme, delay):
@@ -41,7 +71,7 @@ def _leader(y, label, value, value_color, theme, delay):
     return (
         f'    <g class="reveal" style="animation-delay:{delay}">\n'
         f'      <text x="{left_x}" y="{y}" xml:space="preserve" font-size="14" font-family="monospace">'
-        f'<tspan fill="{theme["axon_amber"]}">· </tspan>'
+        f'<tspan fill="{theme["axon_amber"]}">&#183; </tspan>'
         f'<tspan fill="{theme["axon_amber"]}" font-weight="bold">{esc(label)}:</tspan></text>\n'
         f'{dots_svg}'
         f'      <text x="{val_x}" y="{y}" text-anchor="end" fill="{value_color}" font-size="14" font-family="monospace">{esc(value)}</text>\n'
@@ -66,7 +96,7 @@ def _leader_loc(y, label, total, added, removed, theme, delay):
     return (
         f'    <g class="reveal" style="animation-delay:{delay}">\n'
         f'      <text x="{left_x}" y="{y}" xml:space="preserve" font-size="14" font-family="monospace">'
-        f'<tspan fill="{theme["axon_amber"]}">· </tspan>'
+        f'<tspan fill="{theme["axon_amber"]}">&#183; </tspan>'
         f'<tspan fill="{theme["axon_amber"]}" font-weight="bold">{esc(label)}:</tspan></text>\n'
         f'{dots_svg}'
         f'      <text x="{val_start:.1f}" y="{y}" xml:space="preserve" font-size="14" font-family="monospace">'
@@ -100,6 +130,8 @@ def render(data: dict, theme: dict) -> str:
         ASCII_TOP + len(art) * ASCII_LH + 24,
     )
     height = int(height)
+
+    stars_str = _starfield(data["handle"], WIDTH, height, theme)
 
     # --- ASCII portrait (vertically centered in the panel) ---
     art_top = max(ASCII_TOP, (height - len(art) * ASCII_LH) / 2)
@@ -141,7 +173,7 @@ def render(data: dict, theme: dict) -> str:
             info_rows.append(
                 f'    <text x="{INFO_X}" y="{y}" class="reveal" style="animation-delay:{d}" '
                 f'fill="{theme["text_faint"]}" font-size="13" font-family="monospace" '
-                f'letter-spacing="1">─ {esc(row["text"])}</text>'
+                f'letter-spacing="1">&#9472; {esc(row["text"])}</text>'
             )
         elif rtype == "loc":
             info_rows.append(
@@ -163,12 +195,26 @@ def render(data: dict, theme: dict) -> str:
       .cursor {{ opacity: 0; animation: appear 0.1s linear {cursor_delay} forwards, blink 1.1s step-end {cursor_delay} infinite; }}
       @keyframes appear {{ to {{ opacity: 1; }} }}
       @keyframes blink {{ 0%, 50% {{ opacity: 1; }} 50.01%, 100% {{ opacity: 0; }} }}
+      .star-bg {{ animation: twinkle-slow 7s ease-in-out infinite; }}
+      .star-mid {{ animation: twinkle-mid 5s ease-in-out infinite; }}
+      .star-fg {{ animation: twinkle-fast 3s ease-in-out infinite; }}
+      @keyframes twinkle-slow {{ 0%, 100% {{ opacity: 0.08; }} 50% {{ opacity: 0.3; }} }}
+      @keyframes twinkle-mid {{ 0%, 100% {{ opacity: 0.15; }} 50% {{ opacity: 0.5; }} }}
+      @keyframes twinkle-fast {{ 0%, 100% {{ opacity: 0.4; }} 50% {{ opacity: 0.8; }} }}
     </style>
+    <clipPath id="panel-clip">
+      <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="10" ry="10"/>
+    </clipPath>
   </defs>
 
   <!-- Panel -->
   <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="10" ry="10"
         fill="{theme['void']}" stroke="{theme['star_dust']}" stroke-width="1"/>
+
+  <!-- Starfield (matches the galaxy header) -->
+  <g clip-path="url(#panel-clip)">
+{stars_str}
+  </g>
 
 {art_str}
 
