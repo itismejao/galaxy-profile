@@ -2,6 +2,8 @@
 
 from datetime import date, datetime
 
+import re
+
 from generator.templates import (
     galaxy_header,
     stats_card,
@@ -9,6 +11,7 @@ from generator.templates import (
     projects_constellation,
     terminal_card,
     social_chip,
+    unified,
 )
 from generator.utils import format_number, SOCIAL_ICONS
 
@@ -126,6 +129,23 @@ class SVGBuilder:
             for c in self.social_chips()
         }
 
+    def render_unified(self) -> str:
+        """Compose galaxy + terminal + chips into one cohesive SVG."""
+        gsvg = galaxy_header.render(
+            self.config, self.theme, self.galaxy_arms, self.projects, background=False
+        )
+        tsvg = terminal_card.render(self._terminal_data(), self.theme, background=False)
+        th_match = re.search(r'height="(\d+)"', tsvg)
+        th = int(th_match.group(1)) if th_match else 500
+        chips = [social_chip.render(chip=c, theme=self.theme) for c in self.social_chips()]
+        return unified.render(
+            galaxy=(gsvg, galaxy_header.WIDTH, galaxy_header.HEIGHT),
+            terminal=(tsvg, terminal_card.WIDTH, th),
+            chips=chips,
+            theme=self.theme,
+            seed=self.config["username"],
+        )
+
     def _terminal_data(self) -> dict:
         """Assemble neofetch-style, sectioned rows from config + fetched data."""
         profile = self.config.get("profile", {})
@@ -138,7 +158,17 @@ class SVGBuilder:
 
         # --- system ---
         lines.append({"type": "leader", "label": "OS", "value": term.get("os", "GalaxyOS rolling")})
-        lines.append({"type": "leader", "label": "Uptime", "value": self._uptime(term.get("born"))})
+        # Uptime split in two: real-life (birth) + dev (started coding).
+        lines.append({
+            "type": "leader",
+            "label": term.get("birth_label", "Uptime"),
+            "value": self._uptime_note(term.get("birth"), term.get("birth_note", "no reboots")),
+        })
+        lines.append({
+            "type": "leader",
+            "label": term.get("coding_label", "Dev.uptime"),
+            "value": self._uptime_note(term.get("coding_since") or term.get("born"), term.get("coding_note", "still compiling")),
+        })
         host = term.get("host") or profile.get("company") or profile.get("location", "Earth")
         lines.append({"type": "leader", "label": "Host", "value": host})
         kernel = term.get("kernel") or profile.get("tagline", "Software Engineer")
@@ -152,17 +182,17 @@ class SVGBuilder:
         if term.get("languages_human"):
             lines.append({"type": "leader", "label": "Languages.Human", "value": term["languages_human"]})
 
-        # --- contact ---
-        contact = []
-        if social.get("email"):
-            contact.append({"type": "leader", "label": "Email", "value": social["email"], "color": "dendrite_violet"})
-        if social.get("linkedin"):
-            contact.append({"type": "leader", "label": "LinkedIn", "value": social["linkedin"], "color": "dendrite_violet"})
-        contact.append({"type": "leader", "label": "GitHub", "value": username, "color": "dendrite_violet"})
-        for key, label in (("instagram", "Instagram"), ("discord", "Discord")):
-            if term.get(key):
-                contact.append({"type": "leader", "label": label, "value": term[key], "color": "dendrite_violet"})
-        if contact:
+        # --- contact --- (skippable: the social chips already cover this)
+        if term.get("show_contact", True):
+            contact = []
+            if social.get("email"):
+                contact.append({"type": "leader", "label": "Email", "value": social["email"], "color": "dendrite_violet"})
+            if social.get("linkedin"):
+                contact.append({"type": "leader", "label": "LinkedIn", "value": social["linkedin"], "color": "dendrite_violet"})
+            contact.append({"type": "leader", "label": "GitHub", "value": username, "color": "dendrite_violet"})
+            for key, label in (("instagram", "Instagram"), ("discord", "Discord")):
+                if term.get(key):
+                    contact.append({"type": "leader", "label": label, "value": term[key], "color": "dendrite_violet"})
             lines.append({"type": "blank"})
             lines.append({"type": "section", "text": "Contact"})
             lines.extend(contact)
@@ -239,6 +269,13 @@ class SVGBuilder:
                 break
             out.append(name)
         return ", ".join(out) if out else "polyglot"
+
+    def _uptime_note(self, when, note) -> str:
+        """Uptime string with a witty suffix, e.g. '26 years, 3 months · no reboots'."""
+        base = self._uptime(when)
+        if when and note:
+            return f"{base} · {note}"
+        return base
 
     def _uptime(self, born) -> str:
         """Human 'years, months' since an ISO born date (config.terminal.born)."""

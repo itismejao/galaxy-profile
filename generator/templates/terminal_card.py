@@ -110,7 +110,7 @@ def _leader_loc(y, label, total, added, removed, theme, delay):
     )
 
 
-def render(data: dict, theme: dict) -> str:
+def render(data: dict, theme: dict, background: bool = True) -> str:
     """Render the neofetch-style card.
 
     Args:
@@ -120,6 +120,8 @@ def render(data: dict, theme: dict) -> str:
             lines:  list of row dicts (see SVGBuilder._terminal_data):
                 {"type": "header"|"section"|"blank"|"leader"|"loc", ...}
         theme: color palette dict
+        background: draw the panel rect + own starfield (set False when embedding
+            in the unified card, which supplies a shared background).
     """
     art = data["art"]
     lines = data["lines"]
@@ -187,6 +189,23 @@ def render(data: dict, theme: dict) -> str:
     cursor_y = last_y + 6
     cursor_delay = f"{delay + 0.2:.2f}s"
 
+    if background:
+        bg_defs = (
+            '    <clipPath id="panel-clip">\n'
+            f'      <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="10" ry="10"/>\n'
+            '    </clipPath>\n'
+        )
+        bg_body = (
+            '  <!-- Panel -->\n'
+            f'  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="10" ry="10"\n'
+            f'        fill="{theme["void"]}" stroke="{theme["star_dust"]}" stroke-width="1"/>\n\n'
+            '  <!-- Starfield (matches the galaxy header) -->\n'
+            f'  <g clip-path="url(#panel-clip)">\n{stars_str}\n  </g>\n'
+        )
+    else:
+        bg_defs = ""
+        bg_body = ""
+
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" viewBox="0 0 {WIDTH} {height}">
   <defs>
     <style>
@@ -202,20 +221,9 @@ def render(data: dict, theme: dict) -> str:
       @keyframes twinkle-mid {{ 0%, 100% {{ opacity: 0.15; }} 50% {{ opacity: 0.5; }} }}
       @keyframes twinkle-fast {{ 0%, 100% {{ opacity: 0.4; }} 50% {{ opacity: 0.8; }} }}
     </style>
-    <clipPath id="panel-clip">
-      <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="10" ry="10"/>
-    </clipPath>
-  </defs>
+{bg_defs}  </defs>
 
-  <!-- Panel -->
-  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="10" ry="10"
-        fill="{theme['void']}" stroke="{theme['star_dust']}" stroke-width="1"/>
-
-  <!-- Starfield (matches the galaxy header) -->
-  <g clip-path="url(#panel-clip)">
-{stars_str}
-  </g>
-
+{bg_body}
 {art_str}
 
 {info_str}
