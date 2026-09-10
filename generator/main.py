@@ -110,6 +110,7 @@ def generate(args):
         "tech-stack.svg": builder.render_tech_stack(),
         "projects-constellation.svg": builder.render_projects_constellation(),
         "terminal-card.svg": builder.render_terminal_card(),
+        "profile-card.svg": builder.render_unified(),
     }
     svgs.update(builder.render_social_chips())
 

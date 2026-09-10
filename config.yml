@@ -123,6 +123,7 @@ terminal:
   kernel: "Techlead Backend / DevOps"  # "Kernel:" line (your role)
   ide: "VSCode"                        # "IDE:" line
   languages_human: "Portuguese, English"
+  show_contact: false                    # hide terminal Contact (the chips cover it)
   education:                             # "─ Education" section
     course: "Systems Analysis & Development"
     university: "Instituto Federal Goiano"
@@ -131,7 +132,13 @@ terminal:
   instagram_url: "https://www.instagram.com/itismejao/"
   whatsapp_handle: "+55 62 99175-1394"
   whatsapp_url: "https://api.whatsapp.com/send?phone=5562991751394"
-  born: "2019-01-01"                    # start date used for "Uptime:" (YYYY-MM-DD)
+  # Two "uptime" lines: real-life (birth) + dev (started coding).
+  birth: "1996-10-23"                    # your birth date (YYYY-MM-DD)
+  birth_label: "Uptime"
+  birth_note: "no reboots"
+  coding_since: "2017-06-01"             # when you started programming (YYYY-MM-DD)
+  coding_label: "Dev.Uptime"
+  coding_note: "caffeine-powered"
   prompt: "neofetch --ascii"
 
 # Language display settings

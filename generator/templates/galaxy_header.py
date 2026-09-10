@@ -325,6 +325,7 @@ def render(
     theme: dict,
     galaxy_arms: list,
     projects: list,
+    background: bool = True,
 ) -> str:
     """Render the galaxy header SVG.
 
@@ -395,7 +396,11 @@ def render(
     )
 
     # ── Build all layers via helper functions ──
-    stars_str = _build_starfield(username, WIDTH, HEIGHT, theme)
+    stars_str = _build_starfield(username, WIDTH, HEIGHT, theme) if background else ""
+    bg_rect = (
+        f'  <rect x="0" y="0" width="{WIDTH}" height="{HEIGHT}" rx="12" ry="12" fill="{theme["void"]}"/>'
+        if background else ""
+    )
     outer_nebula, inner_nebula = _build_nebulae(CENTER_X, CENTER_Y, theme)
     shoot_stars_str = _build_shooting_stars()
     arm_paths_str, arm_particles_str = _build_spiral_arms(galaxy_arms, arm_colors, all_arm_points)
@@ -483,7 +488,7 @@ def render(
   </defs>
 
   <!-- 1. Background -->
-  <rect x="0" y="0" width="{WIDTH}" height="{HEIGHT}" rx="12" ry="12" fill="{theme['void']}"/>
+{bg_rect}
 
   <!-- 2. Outer nebula -->
 {outer_nebula}
