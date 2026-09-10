@@ -113,7 +113,7 @@ terminal:
     `"`';}Ua@$$$$$&#bt^            .,`
   os: "Arch Linux, Android, macOS"     # "OS:" line
   kernel: "Techlead Backend / DevOps"  # "Kernel:" line (your role)
-  ide: "VSCode, IntelliJ IDEA, Cursor" # "IDE:" line
+  ide: "VSCode"                        # "IDE:" line
   languages_human: "Portuguese, English"
   instagram: "itismejao"
   born: "2019-01-01"                    # start date used for "Uptime:" (YYYY-MM-DD)
