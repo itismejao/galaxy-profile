@@ -602,7 +602,7 @@
     <g class="reveal" style="animation-delay:2.18s">
       <text x="470" y="503" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">&#183; </tspan><tspan fill="#ffb020" font-weight="bold">PRs / Issues:</tspan></text>
       <text x="604.4" y="503" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">................................</text>
-      <text x="964" y="503" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">4250 / 20</text>
+      <text x="964" y="503" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">4251 / 20</text>
     </g>
     <g class="reveal" style="animation-delay:2.27s">
       <text x="470" y="525" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">&#183; </tspan><tspan fill="#ffb020" font-weight="bold">Lines of Code:</tspan></text>
