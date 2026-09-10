@@ -100,8 +100,8 @@
     <text x="356" y="391" class="reveal" style="animation-delay:1.73s" fill="#64748b" font-size="13" font-family="monospace" letter-spacing="1">─ GitHub Stats</text>
     <g class="reveal" style="animation-delay:1.82s">
       <text x="356" y="413" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">Repos:</tspan></text>
-      <text x="431.6" y="413" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">............................</text>
-      <text x="846" y="413" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">31  {Contributed: 2}</text>
+      <text x="431.6" y="413" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">...........................</text>
+      <text x="846" y="413" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">42  {Contributed: 18}</text>
     </g>
     <g class="reveal" style="animation-delay:1.91s">
       <text x="356" y="435" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">Stars:</tspan></text>
@@ -110,8 +110,8 @@
     </g>
     <g class="reveal" style="animation-delay:2.00s">
       <text x="356" y="457" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">Commits:</tspan></text>
-      <text x="448.4" y="457" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">............................................</text>
-      <text x="846" y="457" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">22</text>
+      <text x="448.4" y="457" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">..........................................</text>
+      <text x="846" y="457" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">2.7k</text>
     </g>
     <g class="reveal" style="animation-delay:2.09s">
       <text x="356" y="479" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">Followers:</tspan></text>
@@ -120,8 +120,8 @@
     </g>
     <g class="reveal" style="animation-delay:2.18s">
       <text x="356" y="501" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">PRs / Issues:</tspan></text>
-      <text x="490.4" y="501" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">....................................</text>
-      <text x="846" y="501" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">6 / 2</text>
+      <text x="490.4" y="501" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">................................</text>
+      <text x="846" y="501" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">4247 / 20</text>
     </g>
     <g class="reveal" style="animation-delay:2.27s">
       <text x="356" y="523" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">Lines of Code:</tspan></text>
