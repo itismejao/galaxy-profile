@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="430" viewBox="0 0 850 430">
+  <defs>
+    <style>
+      .reveal { opacity: 0; animation: reveal 0.45s ease forwards; }
+      @keyframes reveal { from { opacity: 0; } to { opacity: 1; } }
+      .cursor { animation: blink 1.1s step-end infinite; }
+      @keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+      .dot { animation: glow 4s ease-in-out infinite; }
+      @keyframes glow { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+    </style>
+    <filter id="term-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Window -->
+  <rect x="0.5" y="0.5" width="849" height="429" rx="12" ry="12"
+        fill="#080c14" stroke="#1a2332" stroke-width="1"/>
+
+  <!-- Title bar -->
+  <path d="M0.5 12.5 A12 12 0 0 1 12.5 0.5 H837.5 A12 12 0 0 1 849.5 12.5 V42 H0.5 Z"
+        fill="#0f1623" stroke="#1a2332" stroke-width="1"/>
+  <circle class="dot" cx="24" cy="21" r="6" fill="#ff5f56"/>
+  <circle class="dot" cx="44" cy="21" r="6" fill="#ffbd2e"/>
+  <circle class="dot" cx="64" cy="21" r="6" fill="#27c93f"/>
+  <text x="425.0" y="26" text-anchor="middle" fill="#94a3b8"
+        font-size="13" font-family="monospace">itismejao@github — -bash</text>
+
+  <!-- Prompt line -->
+  <text x="44" y="70" fill="#f1f5f9" font-size="14" font-family="monospace" filter="url(#term-glow)"><tspan fill="#00d4ff" font-weight="bold">➜</tspan> <tspan fill="#a78bfa">~</tspan> neofetch --ascii</text>
+  <rect class="cursor" x="186.8" y="58" width="9" height="16" fill="#00d4ff"/>
+
+    <text x="44" y="114" class="reveal" style="animation-delay:0.15s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">        .  *   .    </text>
+    <text x="44" y="134" class="reveal" style="animation-delay:0.20s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">     *    _____   . </text>
+    <text x="44" y="154" class="reveal" style="animation-delay:0.25s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">      ,-&apos;`     `&apos;-.  </text>
+    <text x="44" y="174" class="reveal" style="animation-delay:0.30s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">    /`   .---.    `\ </text>
+    <text x="44" y="194" class="reveal" style="animation-delay:0.35s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">   |    ( o o )    | </text>
+    <text x="44" y="214" class="reveal" style="animation-delay:0.40s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">  -+-----`. .`-----+-</text>
+    <text x="44" y="234" class="reveal" style="animation-delay:0.45s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">   |     `---`     | </text>
+    <text x="44" y="254" class="reveal" style="animation-delay:0.50s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">    \             /  </text>
+    <text x="44" y="274" class="reveal" style="animation-delay:0.55s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">  .  `-._____.-&apos;  *  </text>
+    <text x="44" y="294" class="reveal" style="animation-delay:0.60s" xml:space="preserve" fill="#00d4ff" font-size="13" font-family="monospace" opacity="0.9">     *   .    .  .   </text>
+
+    <text x="300" y="100" class="reveal" style="animation-delay:0.1s" fill="#ffb020" font-size="15" font-weight="bold" font-family="monospace">itismejao@github</text>
+    <text x="300" y="118" class="reveal" style="animation-delay:0.2s" xml:space="preserve" fill="#64748b" font-size="14" font-family="monospace">────────────────</text>
+    <text x="300" y="144" class="reveal" style="animation-delay:0.35s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">uptime:     </tspan><tspan fill="#f1f5f9">7 years, 8 months</tspan></text>
+    <text x="300" y="170" class="reveal" style="animation-delay:0.47s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">os:         </tspan><tspan fill="#f1f5f9">GalaxyOS ✦ rolling</tspan></text>
+    <text x="300" y="196" class="reveal" style="animation-delay:0.59s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">host:       </tspan><tspan fill="#f1f5f9">Goiás, Brazil</tspan></text>
+    <text x="300" y="222" class="reveal" style="animation-delay:0.71s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">role:       </tspan><tspan fill="#00d4ff">Full Stack Software Engineer</tspan></text>
+    <text x="300" y="248" class="reveal" style="animation-delay:0.83s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">repos:      </tspan><tspan fill="#a78bfa">31</tspan></text>
+    <text x="300" y="274" class="reveal" style="animation-delay:0.95s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">commits:    </tspan><tspan fill="#00d4ff">22</tspan></text>
+    <text x="300" y="300" class="reveal" style="animation-delay:1.07s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">stars:      </tspan><tspan fill="#ffb020">3</tspan></text>
+    <text x="300" y="326" class="reveal" style="animation-delay:1.19s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">prs/issues: </tspan><tspan fill="#f1f5f9">5 / 2</tspan></text>
+    <text x="300" y="352" class="reveal" style="animation-delay:1.31s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">langs:      </tspan><tspan fill="#94a3b8">PLSQL · JavaScript · Dart · PHP</tspan></text>
+
+  <!-- Theme palette -->
+  <text x="300" y="376" fill="#64748b" font-size="10" font-family="monospace" letter-spacing="2">THEME</text>
+    <rect x="300" y="384" width="26" height="26" rx="4" fill="#080c14" stroke="#1a2332" stroke-width="1" class="reveal" style="animation-delay:1.60s"/>
+    <rect x="332" y="384" width="26" height="26" rx="4" fill="#0f1623" stroke="#1a2332" stroke-width="1" class="reveal" style="animation-delay:1.66s"/>
+    <rect x="364" y="384" width="26" height="26" rx="4" fill="#1a2332" stroke="#1a2332" stroke-width="1" class="reveal" style="animation-delay:1.72s"/>
+    <rect x="396" y="384" width="26" height="26" rx="4" fill="#00d4ff" stroke="#1a2332" stroke-width="1" class="reveal" style="animation-delay:1.78s"/>
+    <rect x="428" y="384" width="26" height="26" rx="4" fill="#a78bfa" stroke="#1a2332" stroke-width="1" class="reveal" style="animation-delay:1.84s"/>
+    <rect x="460" y="384" width="26" height="26" rx="4" fill="#ffb020" stroke="#1a2332" stroke-width="1" class="reveal" style="animation-delay:1.90s"/>
+    <rect x="492" y="384" width="26" height="26" rx="4" fill="#94a3b8" stroke="#1a2332" stroke-width="1" class="reveal" style="animation-delay:1.96s"/>
+    <rect x="524" y="384" width="26" height="26" rx="4" fill="#f1f5f9" stroke="#1a2332" stroke-width="1" class="reveal" style="animation-delay:2.02s"/>
+</svg>

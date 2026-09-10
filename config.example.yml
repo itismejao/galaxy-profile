@@ -87,6 +87,12 @@ stats:
     - "issues"
     - "repos"
 
+# Terminal card — neofetch-style "system info" printed below the galaxy header
+terminal:
+  os: "GalaxyOS ✦ rolling"          # shown on the "os:" line
+  prompt: "neofetch --ascii"        # command echoed after the shell prompt
+  born: "2019-01-01"                # start date used to compute "uptime:" (YYYY-MM-DD)
+
 # Language display settings
 languages:
   exclude:                     # Languages to hide from the telemetry chart

@@ -88,4 +88,12 @@ def validate_config(config: dict) -> dict:
     lang_cfg.setdefault("exclude", [])
     lang_cfg.setdefault("max_display", 8)
 
+    # terminal — optional neofetch-style card (all fields have defaults)
+    term_cfg = config.setdefault("terminal", {})
+    if not isinstance(term_cfg, dict):
+        raise ConfigError("'terminal' must be a mapping.")
+    term_cfg.setdefault("os", "GalaxyOS ✦ rolling")
+    term_cfg.setdefault("prompt", "neofetch --ascii")
+    term_cfg.setdefault("born", "")
+
     return config
