@@ -67,31 +67,90 @@ class SVGBuilder:
         )
 
     def _terminal_data(self) -> dict:
-        """Assemble neofetch-style rows from config + fetched stats/languages."""
+        """Assemble neofetch-style, sectioned rows from config + fetched data."""
         profile = self.config.get("profile", {})
+        social = self.config.get("social", {})
         term = self.config.get("terminal", {})
         username = self.config["username"]
+        s = self.stats
 
-        rows = [
-            {"label": "uptime:", "value": self._uptime(term.get("born")), "color": "text_bright"},
-            {"label": "os:", "value": term.get("os", "GalaxyOS ✦ rolling"), "color": "text_bright"},
-            {"label": "host:", "value": profile.get("location", "Earth"), "color": "text_bright"},
-            {"label": "role:", "value": profile.get("tagline", "Software Engineer"), "color": "synapse_cyan"},
-            {"label": "repos:", "value": str(self.stats.get("repos", 0)), "color": "dendrite_violet"},
-            {"label": "commits:", "value": format_number(self.stats.get("commits", 0)), "color": "synapse_cyan"},
-            {"label": "stars:", "value": format_number(self.stats.get("stars", 0)), "color": "axon_amber"},
-            {"label": "prs/issues:", "value": f"{self.stats.get('prs', 0)} / {self.stats.get('issues', 0)}", "color": "text_bright"},
-            {"label": "langs:", "value": self._top_langs(), "color": "text_dim"},
-        ]
+        lines = [{"type": "header", "text": f"{username}@github"}]
+
+        # --- system ---
+        lines.append({"type": "leader", "label": "OS", "value": term.get("os", "GalaxyOS rolling")})
+        lines.append({"type": "leader", "label": "Uptime", "value": self._uptime(term.get("born"))})
+        host = term.get("host") or profile.get("company") or profile.get("location", "Earth")
+        lines.append({"type": "leader", "label": "Host", "value": host})
+        kernel = term.get("kernel") or profile.get("tagline", "Software Engineer")
+        lines.append({"type": "leader", "label": "Kernel", "value": kernel})
+        if term.get("ide"):
+            lines.append({"type": "leader", "label": "IDE", "value": term["ide"]})
+
+        # --- languages ---
+        lines.append({"type": "blank"})
+        lines.append({"type": "leader", "label": "Languages.Programming", "value": self._top_langs()})
+        if term.get("languages_human"):
+            lines.append({"type": "leader", "label": "Languages.Human", "value": term["languages_human"]})
+
+        # --- contact ---
+        contact = []
+        if social.get("email"):
+            contact.append({"type": "leader", "label": "Email", "value": social["email"], "color": "dendrite_violet"})
+        if social.get("linkedin"):
+            contact.append({"type": "leader", "label": "LinkedIn", "value": social["linkedin"], "color": "dendrite_violet"})
+        contact.append({"type": "leader", "label": "GitHub", "value": username, "color": "dendrite_violet"})
+        for key, label in (("instagram", "Instagram"), ("discord", "Discord")):
+            if term.get(key):
+                contact.append({"type": "leader", "label": label, "value": term[key], "color": "dendrite_violet"})
+        if contact:
+            lines.append({"type": "blank"})
+            lines.append({"type": "section", "text": "Contact"})
+            lines.extend(contact)
+
+        # --- github stats ---
+        lines.append({"type": "blank"})
+        lines.append({"type": "section", "text": "GitHub Stats"})
+        repos_val = str(s.get("repos", 0))
+        if s.get("contributed"):
+            repos_val += f"  {{Contributed: {s['contributed']}}}"
+        lines.append({"type": "leader", "label": "Repos", "value": repos_val})
+        lines.append({"type": "leader", "label": "Stars", "value": format_number(s.get("stars", 0)), "color": "axon_amber"})
+        lines.append({"type": "leader", "label": "Commits", "value": format_number(s.get("commits", 0))})
+        if s.get("followers") is not None:
+            lines.append({"type": "leader", "label": "Followers", "value": format_number(s.get("followers", 0))})
+        lines.append({"type": "leader", "label": "PRs / Issues", "value": f"{s.get('prs', 0)} / {s.get('issues', 0)}"})
+        if s.get("loc_added") is not None:
+            lines.append({
+                "type": "loc",
+                "label": "Lines of Code",
+                "total": f"{s.get('loc_added', 0) + s.get('loc_removed', 0):,}",
+                "added": f"{s.get('loc_added', 0):,}",
+                "removed": f"{s.get('loc_removed', 0):,}",
+            })
 
         return {
             "handle": f"{username}@github",
-            "prompt": term.get("prompt", "neofetch --ascii"),
-            "rows": rows,
+            "art": self._ascii_art(term.get("ascii")),
+            "lines": lines,
         }
 
-    def _top_langs(self, limit: int = 4) -> str:
-        """Top languages by byte count, respecting the languages.exclude list."""
+    @staticmethod
+    def _ascii_art(raw) -> list:
+        """Split a config ascii block into lines; fall back to a galaxy motif."""
+        if raw and str(raw).strip():
+            return [ln for ln in str(raw).rstrip("\n").split("\n")]
+        return [
+            "        .  *   .  ",
+            "     *   ,-'''-.   ",
+            "   .    /  * *  \\  *",
+            "      :  *  .  *  : ",
+            "   *   \\   *  .  /   ",
+            "     .  `-.___.-'  * ",
+            "        *   .   .   ",
+        ]
+
+    def _top_langs(self, limit: int = 4, max_chars: int = 36) -> str:
+        """Top languages by byte count, capped so the line fits on the card."""
         exclude = set(self.config.get("languages", {}).get("exclude", []))
         ranked = sorted(
             ((k, v) for k, v in self.languages.items() if k not in exclude),
@@ -99,7 +158,13 @@ class SVGBuilder:
             reverse=True,
         )
         names = [name for name, _ in ranked[:limit]]
-        return " · ".join(names) if names else "polyglot"
+        out = []
+        for name in names:
+            candidate = ", ".join(out + [name])
+            if len(candidate) > max_chars:
+                break
+            out.append(name)
+        return ", ".join(out) if out else "polyglot"
 
     def _uptime(self, born) -> str:
         """Human 'years, months' since an ISO born date (config.terminal.born)."""
