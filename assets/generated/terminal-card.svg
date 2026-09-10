@@ -50,7 +50,7 @@
     <text x="300" y="248" class="reveal" style="animation-delay:0.83s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">repos:      </tspan><tspan fill="#a78bfa">31</tspan></text>
     <text x="300" y="274" class="reveal" style="animation-delay:0.95s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">commits:    </tspan><tspan fill="#00d4ff">22</tspan></text>
     <text x="300" y="300" class="reveal" style="animation-delay:1.07s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">stars:      </tspan><tspan fill="#ffb020">3</tspan></text>
-    <text x="300" y="326" class="reveal" style="animation-delay:1.19s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">prs/issues: </tspan><tspan fill="#f1f5f9">5 / 2</tspan></text>
+    <text x="300" y="326" class="reveal" style="animation-delay:1.19s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">prs/issues: </tspan><tspan fill="#f1f5f9">6 / 2</tspan></text>
     <text x="300" y="352" class="reveal" style="animation-delay:1.31s" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#a78bfa" font-weight="bold">langs:      </tspan><tspan fill="#94a3b8">PLSQL · JavaScript · Dart · PHP</tspan></text>
 
   <!-- Theme palette -->
