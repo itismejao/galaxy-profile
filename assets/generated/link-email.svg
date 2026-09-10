@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="330" height="92" viewBox="0 0 330 92">
+  <defs>
+    <style>
+      .tw { animation: tw 4s ease-in-out infinite; }
+      @keyframes tw { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.5; } }
+      .beacon { animation: beacon 2.2s ease-in-out infinite; }
+      @keyframes beacon { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+      .chip:hover .plate { stroke-opacity: 0.9; }
+    </style>
+    <clipPath id="clip-email">
+      <rect x="1" y="1" width="328" height="90" rx="14" ry="14"/>
+    </clipPath>
+    <radialGradient id="node-email" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff5a5a" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ff5a5a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <g class="chip">
+    <rect x="1" y="1" width="328" height="90" rx="14" ry="14"
+          fill="#080c14" stroke="#1a2332" stroke-width="1"/>
+    <g clip-path="url(#clip-email)">
+    <circle cx="90.6" cy="84.5" r="0.58" fill="#ffffff" opacity="0.22" class="tw" style="animation-delay:1.2s"/>
+    <circle cx="49.7" cy="83.0" r="0.86" fill="#ffffff" opacity="0.41" class="tw" style="animation-delay:0.9s"/>
+    <circle cx="302.0" cy="12.3" r="0.88" fill="#ffffff" opacity="0.37" class="tw" style="animation-delay:0.2s"/>
+    <circle cx="21.0" cy="24.6" r="1.02" fill="#ffffff" opacity="0.15" class="tw" style="animation-delay:0.6s"/>
+    <circle cx="211.4" cy="77.1" r="0.90" fill="#ffffff" opacity="0.41" class="tw" style="animation-delay:0.0s"/>
+    <circle cx="136.6" cy="65.3" r="0.67" fill="#ffffff" opacity="0.22" class="tw" style="animation-delay:0.5s"/>
+    <circle cx="76.2" cy="38.6" r="0.42" fill="#ffffff" opacity="0.27" class="tw" style="animation-delay:1.0s"/>
+    <circle cx="127.0" cy="67.7" r="0.51" fill="#ffffff" opacity="0.40" class="tw" style="animation-delay:0.3s"/>
+    <circle cx="30.6" cy="72.9" r="0.72" fill="#ffffff" opacity="0.19" class="tw" style="animation-delay:0.8s"/>
+    <circle cx="22.8" cy="21.7" r="1.05" fill="#ffffff" opacity="0.29" class="tw" style="animation-delay:0.2s"/>
+    <circle cx="258.8" cy="7.7" r="0.32" fill="#ffffff" opacity="0.14" class="tw" style="animation-delay:0.3s"/>
+    <circle cx="77.0" cy="64.5" r="1.04" fill="#ffffff" opacity="0.27" class="tw" style="animation-delay:0.7s"/>
+    <circle cx="134.9" cy="33.7" r="0.88" fill="#ffffff" opacity="0.37" class="tw" style="animation-delay:1.0s"/>
+    <circle cx="84.7" cy="84.9" r="0.44" fill="#ffffff" opacity="0.28" class="tw" style="animation-delay:0.6s"/>
+    <circle cx="92.8" cy="72.9" r="1.04" fill="#ffffff" opacity="0.17" class="tw" style="animation-delay:1.0s"/>
+    <circle cx="181.4" cy="26.5" r="0.45" fill="#ffffff" opacity="0.27" class="tw" style="animation-delay:0.1s"/>
+      <rect class="plate" x="1" y="1" width="328" height="90" rx="14" ry="14"
+            fill="none" stroke="#ff5a5a" stroke-width="1" stroke-opacity="0.4"/>
+      <rect x="1" y="1" width="5" height="90" fill="#ff5a5a" opacity="0.55"/>
+    </g>
+
+    <!-- signal node -->
+    <circle cx="48" cy="46" r="26" fill="url(#node-email)"/>
+    <circle cx="48" cy="46" r="20" fill="#0f1623" stroke="#ff5a5a" stroke-width="1.2" opacity="0.9"/>
+    <svg x="36" y="34" width="24" height="24" viewBox="0 0 24 24" fill="#ff5a5a"><path d="M2 4h20a2 2 0 012 2v12a2 2 0 01-2 2H2a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v.01L12 13 22 6.01V6H2zm20 2.24-8.4 5.88a2 2 0 01-2.2 0L2 8.24V18h20V8.24z"/></svg>
+
+    <!-- beacon -->
+    <circle class="beacon" cx="312" cy="18" r="3" fill="#ff5a5a"/>
+
+    <!-- text -->
+    <text x="86" y="38" fill="#ff5a5a" font-size="16" font-weight="bold" font-family="monospace">Email</text>
+    <text x="86" y="57" fill="#f1f5f9" font-size="12" font-family="monospace">jm.siqueiraneto@gmail.com</text>
+    <text x="86" y="74" fill="#64748b" font-size="10" font-family="monospace" font-style="italic">async channel &#183; always open</text>
+  </g>
+</svg>
