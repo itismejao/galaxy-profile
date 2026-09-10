@@ -63,13 +63,13 @@
     </g>
     <g class="reveal" style="animation-delay:0.74s">
       <text x="356" y="170" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">IDE:</tspan></text>
-      <text x="414.8" y="170" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">.....................</text>
-      <text x="846" y="170" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">VSCode, IntelliJ IDEA, Cursor</text>
+      <text x="414.8" y="170" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">............................................</text>
+      <text x="846" y="170" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">VSCode</text>
     </g>
     <g class="reveal" style="animation-delay:0.92s">
       <text x="356" y="207" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">Languages.Programming:</tspan></text>
       <text x="566.0" y="207" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">....</text>
-      <text x="846" y="207" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">PLSQL, JavaScript, Dart, PHP</text>
+      <text x="846" y="207" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">Dart, PHP, PLSQL, JavaScript</text>
     </g>
     <g class="reveal" style="animation-delay:1.01s">
       <text x="356" y="229" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">Languages.Human:</tspan></text>
@@ -125,8 +125,8 @@
     </g>
     <g class="reveal" style="animation-delay:2.27s">
       <text x="356" y="523" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">Lines of Code:</tspan></text>
-      <text x="498.8" y="523" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">...........</text>
-      <text x="602.4" y="523" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#00d4ff">207,262</tspan><tspan fill="#94a3b8"> (</tspan><tspan fill="#3fb950">143,716++</tspan><tspan fill="#94a3b8">, </tspan><tspan fill="#f85149">63,546--</tspan><tspan fill="#94a3b8">)</tspan></text>
+      <text x="498.8" y="523" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">.......</text>
+      <text x="568.8" y="523" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#00d4ff">1,423,911</tspan><tspan fill="#94a3b8"> (</tspan><tspan fill="#3fb950">1,355,631++</tspan><tspan fill="#94a3b8">, </tspan><tspan fill="#f85149">68,280--</tspan><tspan fill="#94a3b8">)</tspan></text>
     </g>
 
   <rect class="cursor" x="356" y="529" width="9" height="16" fill="#00d4ff"/>
