@@ -29,7 +29,10 @@ jobs:
 
       - name: Generate SVGs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Personal access token (repo + read:user) so commits, followers, and
+          # lines of code count private contributions — the default GITHUB_TOKEN
+          # under-reports these. Falls back to GITHUB_TOKEN if GH_PAT is unset.
+          GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
         run: python -m generator.main
 
       - name: Commit and push if changed
