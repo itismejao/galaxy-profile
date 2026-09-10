@@ -61,9 +61,10 @@ class TestSVGBuilder:
 
     def test_terminal_card_contains_handle_and_stats(self, svg_builder):
         svg = svg_builder.render_terminal_card()
-        assert "@github" in svg
-        assert "commits:" in svg
+        assert "galaxy-dev@github" in svg
+        assert "Commits:" in svg
         assert "1.8k" in svg  # commits=1847 formatted
+        assert "GitHub Stats" in svg  # section header
 
 
 class TestTerminalUptime:

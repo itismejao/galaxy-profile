@@ -1,150 +1,177 @@
-"""SVG template: neofetch-style terminal card (850x430).
+"""SVG template: neofetch-style profile card.
 
-Renders a fake terminal window that prints profile "system info" the way
-`neofetch` does — an ASCII planet on the left, key/value stats on the right,
-and a theme color palette at the bottom. Lines fade in sequentially with a
-blinking block cursor to sell the "typing" effect.
+Renders an ASCII portrait on the left and dotted-leader "system info" lines
+on the right (amber labels, right-aligned values, section headers, and a
+green/red Lines-of-Code split), the way `neofetch` prints on a login shell.
+Lines fade in sequentially with a blinking cursor to sell the "printing" feel.
 """
 
 from generator.utils import esc
 
-WIDTH, HEIGHT = 850, 430
+WIDTH = 880
+PAD_TOP = 38
+LINE_H = 22
+INFO_X = 356
+INFO_RIGHT = WIDTH - 34
+CHARW = 8.4          # monospace advance at font-size 14
 
-TITLE_BAR = 42
-ART_X = 44
-INFO_X = 300
-BODY_TOP = 88
-INFO_LINE_H = 26
-ART_LINE_H = 20
+ASCII_X = 30
+ASCII_TOP = 40
+ASCII_LH = 11.4
+ASCII_FS = 10.5
 
-# Compact ASCII planet-with-ring, rendered one <text> per line.
-ART = [
-    "        .  *   .    ",
-    "     *    _____   . ",
-    "      ,-'`     `'-.  ",
-    "    /`   .---.    `\\ ",
-    "   |    ( o o )    | ",
-    "  -+-----`. .`-----+-",
-    "   |     `---`     | ",
-    "    \\             /  ",
-    "  .  `-._____.-'  *  ",
-    "     *   .    .  .   ",
-]
+LOC_ADD = "#3fb950"  # github green
+LOC_DEL = "#f85149"  # github red
+
+
+def _leader(y, label, value, value_color, theme, delay):
+    """A 'label ....... value' line with a right-aligned value."""
+    prefix = f"· {label}:"          # "· label:"
+    left_x = INFO_X
+    val_x = INFO_RIGHT
+    dot_start = left_x + len(prefix) * CHARW + CHARW
+    dot_end = val_x - len(value) * CHARW - CHARW
+    ndots = int((dot_end - dot_start) / CHARW)
+    dots_svg = ""
+    if ndots > 0:
+        dots_svg = (
+            f'      <text x="{dot_start:.1f}" y="{y}" fill="{theme["star_dust"]}" '
+            f'font-size="14" font-family="monospace" letter-spacing="1">{"." * ndots}</text>\n'
+        )
+    return (
+        f'    <g class="reveal" style="animation-delay:{delay}">\n'
+        f'      <text x="{left_x}" y="{y}" xml:space="preserve" font-size="14" font-family="monospace">'
+        f'<tspan fill="{theme["axon_amber"]}">· </tspan>'
+        f'<tspan fill="{theme["axon_amber"]}" font-weight="bold">{esc(label)}:</tspan></text>\n'
+        f'{dots_svg}'
+        f'      <text x="{val_x}" y="{y}" text-anchor="end" fill="{value_color}" font-size="14" font-family="monospace">{esc(value)}</text>\n'
+        f'    </g>'
+    )
+
+
+def _leader_loc(y, label, total, added, removed, theme, delay):
+    """The Lines-of-Code line: right-aligned 'total (added++, removed--)'."""
+    prefix = f"· {label}:"
+    plain = f"{total} ({added}++, {removed}--)"
+    left_x = INFO_X
+    val_start = INFO_RIGHT - len(plain) * CHARW
+    dot_start = left_x + len(prefix) * CHARW + CHARW
+    ndots = int((val_start - dot_start - CHARW) / CHARW)
+    dots_svg = ""
+    if ndots > 0:
+        dots_svg = (
+            f'      <text x="{dot_start:.1f}" y="{y}" fill="{theme["star_dust"]}" '
+            f'font-size="14" font-family="monospace" letter-spacing="1">{"." * ndots}</text>\n'
+        )
+    return (
+        f'    <g class="reveal" style="animation-delay:{delay}">\n'
+        f'      <text x="{left_x}" y="{y}" xml:space="preserve" font-size="14" font-family="monospace">'
+        f'<tspan fill="{theme["axon_amber"]}">· </tspan>'
+        f'<tspan fill="{theme["axon_amber"]}" font-weight="bold">{esc(label)}:</tspan></text>\n'
+        f'{dots_svg}'
+        f'      <text x="{val_start:.1f}" y="{y}" xml:space="preserve" font-size="14" font-family="monospace">'
+        f'<tspan fill="{theme["synapse_cyan"]}">{esc(total)}</tspan>'
+        f'<tspan fill="{theme["text_dim"]}"> (</tspan>'
+        f'<tspan fill="{LOC_ADD}">{esc(added)}++</tspan>'
+        f'<tspan fill="{theme["text_dim"]}">, </tspan>'
+        f'<tspan fill="{LOC_DEL}">{esc(removed)}--</tspan>'
+        f'<tspan fill="{theme["text_dim"]}">)</tspan></text>\n'
+        f'    </g>'
+    )
 
 
 def render(data: dict, theme: dict) -> str:
-    """Render the terminal card SVG.
+    """Render the neofetch-style card.
 
     Args:
-        data: prepared dict from SVGBuilder.render_terminal_card with keys:
-            handle, prompt, rows (list of {label, value, color}), langs, uptime
+        data: dict with keys:
+            handle: "user@github"
+            art:    list[str] ASCII portrait lines
+            lines:  list of row dicts (see SVGBuilder._terminal_data):
+                {"type": "header"|"section"|"blank"|"leader"|"loc", ...}
         theme: color palette dict
     """
-    accent = theme["synapse_cyan"]
-    violet = theme["dendrite_violet"]
-    amber = theme["axon_amber"]
+    art = data["art"]
+    lines = data["lines"]
+    handle = data["handle"]
 
-    handle = esc(data["handle"])
-    prompt = esc(data["prompt"])
-    rows = data["rows"]
-    rule = "─" * min(len(data["handle"]), 30)
-
-    # --- ASCII art (left column) ---
-    art_lines = []
-    for i, line in enumerate(ART):
-        y = BODY_TOP + 26 + i * ART_LINE_H
-        delay = f"{0.15 + i * 0.05:.2f}s"
-        art_lines.append(
-            f'    <text x="{ART_X}" y="{y}" class="reveal" style="animation-delay:{delay}" '
-            f'xml:space="preserve" fill="{accent}" font-size="13" '
-            f'font-family="monospace" opacity="0.9">{esc(line)}</text>'
-        )
-    art_str = "\n".join(art_lines)
-
-    # --- Info block (right column) ---
-    info_lines = []
-    # header: handle + rule
-    info_lines.append(
-        f'    <text x="{INFO_X}" y="{BODY_TOP + 12}" class="reveal" style="animation-delay:0.1s" '
-        f'fill="{amber}" font-size="15" font-weight="bold" font-family="monospace">{handle}</text>'
+    height = max(
+        PAD_TOP + len(lines) * LINE_H + 20,
+        ASCII_TOP + len(art) * ASCII_LH + 24,
     )
-    info_lines.append(
-        f'    <text x="{INFO_X}" y="{BODY_TOP + 30}" class="reveal" style="animation-delay:0.2s" '
-        f'xml:space="preserve" fill="{theme["text_faint"]}" font-size="14" font-family="monospace">{esc(rule)}</text>'
-    )
+    height = int(height)
 
-    label_w = max((len(r["label"]) for r in rows), default=8) + 1
-    for i, row in enumerate(rows):
-        y = BODY_TOP + 56 + i * INFO_LINE_H
-        delay = f"{0.35 + i * 0.12:.2f}s"
-        label = esc(row["label"].ljust(label_w))
-        value = esc(row["value"])
-        value_color = theme.get(row.get("color", "text_bright"), theme["text_bright"])
-        info_lines.append(
-            f'    <text x="{INFO_X}" y="{y}" class="reveal" style="animation-delay:{delay}" '
-            f'xml:space="preserve" font-size="14" font-family="monospace">'
-            f'<tspan fill="{violet}" font-weight="bold">{label}</tspan>'
-            f'<tspan fill="{value_color}">{value}</tspan></text>'
+    # --- ASCII portrait ---
+    art_rows = []
+    for i, line in enumerate(art):
+        y = ASCII_TOP + (i + 1) * ASCII_LH
+        art_rows.append(
+            f'    <text x="{ASCII_X}" y="{y:.1f}" xml:space="preserve" '
+            f'class="reveal" style="animation-delay:{0.05 + i * 0.03:.2f}s" '
+            f'fill="{theme["text_dim"]}" font-size="{ASCII_FS}" font-family="monospace">{esc(line)}</text>'
         )
-    info_str = "\n".join(info_lines)
+    art_str = "\n".join(art_rows)
 
-    # --- Theme color palette (bottom) ---
-    swatch_keys = [
-        "void", "nebula", "star_dust", "synapse_cyan",
-        "dendrite_violet", "axon_amber", "text_dim", "text_bright",
-    ]
-    sw = 26
-    pal_y = HEIGHT - 46
-    swatches = []
-    for i, key in enumerate(swatch_keys):
-        x = INFO_X + i * (sw + 6)
-        swatches.append(
-            f'    <rect x="{x}" y="{pal_y}" width="{sw}" height="{sw}" rx="4" '
-            f'fill="{theme[key]}" stroke="{theme["star_dust"]}" stroke-width="1" '
-            f'class="reveal" style="animation-delay:{1.6 + i * 0.06:.2f}s"/>'
-        )
-    palette_str = "\n".join(swatches)
+    # --- Info lines ---
+    info_rows = []
+    last_y = PAD_TOP
+    delay = 0.2
+    for row in lines:
+        delay += 0.09
+        d = f"{delay:.2f}s"
+        rtype = row["type"]
+        if rtype == "blank":
+            last_y += LINE_H // 2 + 4
+            continue
+        last_y += LINE_H
+        y = last_y
+        if rtype == "header":
+            text_len = len(row["text"])
+            rule_x = INFO_X + (text_len + 1) * CHARW
+            info_rows.append(
+                f'    <g class="reveal" style="animation-delay:{d}">\n'
+                f'      <text x="{INFO_X}" y="{y}" fill="{theme["synapse_cyan"]}" font-size="15" '
+                f'font-weight="bold" font-family="monospace">{esc(row["text"])}</text>\n'
+                f'      <line x1="{rule_x:.1f}" y1="{y - 5}" x2="{INFO_RIGHT}" y2="{y - 5}" '
+                f'stroke="{theme["star_dust"]}" stroke-width="1"/>\n'
+                f'    </g>'
+            )
+        elif rtype == "section":
+            info_rows.append(
+                f'    <text x="{INFO_X}" y="{y}" class="reveal" style="animation-delay:{d}" '
+                f'fill="{theme["text_faint"]}" font-size="13" font-family="monospace" '
+                f'letter-spacing="1">─ {esc(row["text"])}</text>'
+            )
+        elif rtype == "loc":
+            info_rows.append(
+                _leader_loc(y, row["label"], row["total"], row["added"], row["removed"], theme, d)
+            )
+        else:  # leader
+            color = theme.get(row.get("color", "synapse_cyan"), theme["synapse_cyan"])
+            info_rows.append(_leader(y, row["label"], row["value"], color, theme, d))
+    info_str = "\n".join(info_rows)
 
-    # Blinking cursor sits after the prompt line.
-    cursor_x = 44 + (len(data["prompt"]) + 1) * 8.4
+    cursor_y = last_y + 6
+    cursor_delay = f"{delay + 0.2:.2f}s"
 
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" viewBox="0 0 {WIDTH} {height}">
   <defs>
     <style>
-      .reveal {{ opacity: 0; animation: reveal 0.45s ease forwards; }}
+      .reveal {{ opacity: 0; animation: reveal 0.4s ease forwards; }}
       @keyframes reveal {{ from {{ opacity: 0; }} to {{ opacity: 1; }} }}
-      .cursor {{ animation: blink 1.1s step-end infinite; }}
+      .cursor {{ opacity: 0; animation: appear 0.1s linear {cursor_delay} forwards, blink 1.1s step-end {cursor_delay} infinite; }}
+      @keyframes appear {{ to {{ opacity: 1; }} }}
       @keyframes blink {{ 0%, 50% {{ opacity: 1; }} 50.01%, 100% {{ opacity: 0; }} }}
-      .dot {{ animation: glow 4s ease-in-out infinite; }}
-      @keyframes glow {{ 0%, 100% {{ opacity: 0.85; }} 50% {{ opacity: 1; }} }}
     </style>
-    <filter id="term-glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="0.6"/>
-    </filter>
   </defs>
 
-  <!-- Window -->
-  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="12" ry="12"
+  <!-- Panel -->
+  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height - 1}" rx="10" ry="10"
         fill="{theme['void']}" stroke="{theme['star_dust']}" stroke-width="1"/>
-
-  <!-- Title bar -->
-  <path d="M0.5 12.5 A12 12 0 0 1 12.5 0.5 H{WIDTH - 12.5} A12 12 0 0 1 {WIDTH - 0.5} 12.5 V{TITLE_BAR} H0.5 Z"
-        fill="{theme['nebula']}" stroke="{theme['star_dust']}" stroke-width="1"/>
-  <circle class="dot" cx="24" cy="21" r="6" fill="#ff5f56"/>
-  <circle class="dot" cx="44" cy="21" r="6" fill="#ffbd2e"/>
-  <circle class="dot" cx="64" cy="21" r="6" fill="#27c93f"/>
-  <text x="{WIDTH / 2}" y="26" text-anchor="middle" fill="{theme['text_dim']}"
-        font-size="13" font-family="monospace">{handle} — -bash</text>
-
-  <!-- Prompt line -->
-  <text x="44" y="{BODY_TOP - 18}" fill="{theme['text_bright']}" font-size="14" font-family="monospace" filter="url(#term-glow)"><tspan fill="{theme['synapse_cyan']}" font-weight="bold">➜</tspan> <tspan fill="{theme['dendrite_violet']}">~</tspan> {prompt}</text>
-  <rect class="cursor" x="{cursor_x:.1f}" y="{BODY_TOP - 30}" width="9" height="16" fill="{theme['synapse_cyan']}"/>
 
 {art_str}
 
 {info_str}
 
-  <!-- Theme palette -->
-  <text x="{INFO_X}" y="{pal_y - 8}" fill="{theme['text_faint']}" font-size="10" font-family="monospace" letter-spacing="2">THEME</text>
-{palette_str}
+  <rect class="cursor" x="{INFO_X}" y="{cursor_y}" width="9" height="16" fill="{theme['synapse_cyan']}"/>
 </svg>'''

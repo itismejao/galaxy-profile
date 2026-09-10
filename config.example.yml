@@ -87,11 +87,20 @@ stats:
     - "issues"
     - "repos"
 
-# Terminal card — neofetch-style "system info" printed below the galaxy header
+# Terminal card — neofetch-style "system info" printed below the galaxy header.
+# ASCII portrait on the left, dotted-leader stats on the right. All optional.
 terminal:
-  os: "GalaxyOS ✦ rolling"          # shown on the "os:" line
-  prompt: "neofetch --ascii"        # command echoed after the shell prompt
-  born: "2019-01-01"                # start date used to compute "uptime:" (YYYY-MM-DD)
+  # ascii: |                        # left-column art; omit for a built-in galaxy motif.
+  #   your ASCII portrait here       # tip: convert your avatar at an image-to-ASCII tool.
+  os: "GalaxyOS rolling"            # "OS:" line
+  kernel: ""                        # "Kernel:" line (defaults to profile.tagline)
+  host: ""                          # "Host:" line (defaults to profile.company/location)
+  ide: "VSCode, Neovim"             # "IDE:" line (omit to hide)
+  languages_human: "English"        # "Languages.Human:" line (omit to hide)
+  instagram: ""                     # extra Contact line (omit to hide)
+  discord: ""                       # extra Contact line (omit to hide)
+  born: "2019-01-01"                # start date used for "Uptime:" (YYYY-MM-DD)
+  prompt: "neofetch --ascii"
 
 # Language display settings
 languages:

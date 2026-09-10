@@ -14,7 +14,10 @@ from generator.svg_builder import SVGBuilder
 
 logger = logging.getLogger(__name__)
 
-DEMO_STATS = {"commits": 1847, "stars": 342, "prs": 156, "issues": 89, "repos": 42}
+DEMO_STATS = {
+    "commits": 1847, "stars": 342, "prs": 156, "issues": 89, "repos": 42,
+    "followers": 196, "contributed": 133, "loc_added": 523178, "loc_removed": 76902,
+}
 DEMO_LANGUAGES = {
     "Python": 450000,
     "TypeScript": 380000,
@@ -84,6 +87,14 @@ def generate(args):
         except (requests.exceptions.RequestException, ValueError, KeyError) as e:
             logger.warning("Could not fetch languages (%s). Using defaults.", e)
             languages = {}
+
+        logger.info("Counting lines of code (this can take a while)...")
+        try:
+            loc = api.fetch_lines_of_code()
+            stats["loc_added"] = loc["additions"]
+            stats["loc_removed"] = loc["deletions"]
+        except (requests.exceptions.RequestException, ValueError, KeyError) as e:
+            logger.warning("Could not count lines of code (%s). Skipping.", e)
 
     logger.info("Stats: %s", stats)
     logger.info("Languages: %d found", len(languages))

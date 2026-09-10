@@ -64,6 +64,9 @@ class GitHubAPI:
         query = """
         query($username: String!) {
           user(login: $username) {
+            followers {
+              totalCount
+            }
             repositoriesContributedTo(contributionTypes: [COMMIT, PULL_REQUEST, ISSUE]) {
               totalCount
             }
@@ -122,6 +125,8 @@ class GitHubAPI:
             "prs": user["pullRequests"]["totalCount"],
             "issues": user["issues"]["totalCount"],
             "repos": repos["totalCount"],
+            "followers": user["followers"]["totalCount"],
+            "contributed": user["repositoriesContributedTo"]["totalCount"],
         }
 
     def _fetch_stats_rest(self) -> dict:
@@ -163,6 +168,8 @@ class GitHubAPI:
             "prs": pr_count,
             "issues": issue_count,
             "repos": user_data.get("public_repos", 0),
+            "followers": user_data.get("followers", 0),
+            "contributed": 0,
         }
 
     def _paginate_repos(self):
@@ -197,6 +204,57 @@ class GitHubAPI:
         except requests.exceptions.RequestException as e:
             logger.warning("Search API failed for '%s': %s", query, e)
         return 0
+
+    def fetch_lines_of_code(self) -> dict:
+        """Sum lines added/removed by the user across all owned non-fork repos.
+
+        Uses the per-repo Stats Contributors endpoint, which returns weekly
+        additions/deletions per contributor. GitHub computes this async and
+        answers 202 while the cache warms, so we retry a few times per repo and
+        skip any repo that never resolves. Returns {"additions", "deletions"}.
+        """
+        additions = 0
+        deletions = 0
+        login = self.username.lower()
+
+        for repos in self._paginate_repos():
+            for repo in repos:
+                if repo.get("fork"):
+                    continue
+                contributors = self._repo_contributor_stats(repo)
+                for c in contributors or []:
+                    author = c.get("author") or {}
+                    if (author.get("login") or "").lower() != login:
+                        continue
+                    for week in c.get("weeks", []):
+                        additions += week.get("a", 0)
+                        deletions += week.get("d", 0)
+
+        return {"additions": additions, "deletions": deletions}
+
+    def _repo_contributor_stats(self, repo: dict, retries: int = 3):
+        """Fetch /stats/contributors for one repo, handling GitHub's 202 warmup."""
+        url = f"{self.REST_URL}/repos/{repo['full_name']}/stats/contributors"
+        for attempt in range(retries):
+            try:
+                resp = self._request("GET", url)
+            except requests.exceptions.RequestException as e:
+                logger.warning("LOC stats failed for %s: %s", repo.get("full_name"), e)
+                return None
+            if resp.status_code == 202:
+                # Stats being computed server-side; wait briefly and retry.
+                time.sleep(2 * (attempt + 1))
+                continue
+            if resp.status_code == 200:
+                return resp.json() or []
+            if resp.status_code == 204:
+                return []  # empty repo
+            logger.warning(
+                "LOC stats HTTP %d for %s", resp.status_code, repo.get("full_name")
+            )
+            return None
+        logger.warning("LOC stats not ready for %s after %d tries", repo.get("full_name"), retries)
+        return None
 
     def fetch_languages(self) -> dict:
         """Fetch language byte counts aggregated across all owned non-fork repos."""
