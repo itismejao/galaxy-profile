@@ -54,6 +54,30 @@ class TestSVGBuilder:
         assert "nebula-ui" in svg
         assert "stargate-api" in svg
 
+    def test_render_terminal_card_valid_svg(self, svg_builder):
+        svg = svg_builder.render_terminal_card()
+        assert svg.strip().startswith("<svg")
+        assert svg.strip().endswith("</svg>")
+
+    def test_terminal_card_contains_handle_and_stats(self, svg_builder):
+        svg = svg_builder.render_terminal_card()
+        assert "@github" in svg
+        assert "commits:" in svg
+        assert "1.8k" in svg  # commits=1847 formatted
+
+
+class TestTerminalUptime:
+    def test_uptime_from_born_date(self, cfg, sample_stats, sample_languages):
+        cfg["terminal"] = {"born": "2019-01-01"}
+        config = validate_config(cfg)
+        builder = SVGBuilder(config, sample_stats, sample_languages)
+        assert "year" in builder._uptime("2019-01-01")
+
+    def test_uptime_without_born_date(self, cfg, sample_stats, sample_languages):
+        config = validate_config(cfg)
+        builder = SVGBuilder(config, sample_stats, sample_languages)
+        assert builder._uptime("") == "always online"
+
 
 class TestEdgeCases:
     def test_empty_projects(self, cfg, sample_stats, sample_languages):
