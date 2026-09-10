@@ -125,7 +125,7 @@
     <g class="reveal" style="animation-delay:2.27s">
       <text x="470" y="525" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">· </tspan><tspan fill="#ffb020" font-weight="bold">Lines of Code:</tspan></text>
       <text x="612.8" y="525" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">.......</text>
-      <text x="686.8" y="525" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#00d4ff">1,428,391</tspan><tspan fill="#94a3b8"> (</tspan><tspan fill="#3fb950">1,360,111++</tspan><tspan fill="#94a3b8">, </tspan><tspan fill="#f85149">68,280--</tspan><tspan fill="#94a3b8">)</tspan></text>
+      <text x="686.8" y="525" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#00d4ff">1,428,395</tspan><tspan fill="#94a3b8"> (</tspan><tspan fill="#3fb950">1,360,115++</tspan><tspan fill="#94a3b8">, </tspan><tspan fill="#f85149">68,280--</tspan><tspan fill="#94a3b8">)</tspan></text>
     </g>
 
   <rect class="cursor" x="470" y="531" width="9" height="16" fill="#00d4ff"/>
