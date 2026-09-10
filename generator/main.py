@@ -111,6 +111,7 @@ def generate(args):
         "projects-constellation.svg": builder.render_projects_constellation(),
         "terminal-card.svg": builder.render_terminal_card(),
     }
+    svgs.update(builder.render_social_chips())
 
     for filename, content in svgs.items():
         path = os.path.join(output_dir, filename)

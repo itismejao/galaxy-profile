@@ -20,6 +20,15 @@ social:
   email: "jm.siqueiraneto@gmail.com"
   linkedin: "joaomarcossneto"
   website: ""
+  # Social chips ("─ where to find me" row below the galaxy)
+  linkedin_handle: "João Marcos"
+  linkedin_url: "https://www.linkedin.com/in/joão-marcos-siqueira-neto-23330896/"
+
+# Galaxy header options
+# show_name / show_tagline: set false to show ONLY the galaxy + philosophy phrase
+galaxy:
+  show_name: false
+  show_tagline: false
 
 # Galaxy arms represent your core focus areas
 # Each arm spirals out from the center with its own color and tech items
@@ -114,7 +123,14 @@ terminal:
   kernel: "Techlead Backend / DevOps"  # "Kernel:" line (your role)
   ide: "VSCode"                        # "IDE:" line
   languages_human: "Portuguese, English"
+  education:                             # "─ Education" section
+    course: "Systems Analysis & Development"
+    university: "Instituto Federal Goiano"
+    status: "graduated · 0 errors, shipped to prod ✓"
   instagram: "itismejao"
+  instagram_url: "https://www.instagram.com/itismejao/"
+  whatsapp_handle: "+55 62 99175-1394"
+  whatsapp_url: "https://api.whatsapp.com/send?phone=5562991751394"
   born: "2019-01-01"                    # start date used for "Uptime:" (YYYY-MM-DD)
   prompt: "neofetch --ascii"
 

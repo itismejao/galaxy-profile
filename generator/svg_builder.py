@@ -8,8 +8,9 @@ from generator.templates import (
     tech_stack,
     projects_constellation,
     terminal_card,
+    social_chip,
 )
-from generator.utils import format_number
+from generator.utils import format_number, SOCIAL_ICONS
 
 
 class SVGBuilder:
@@ -66,6 +67,65 @@ class SVGBuilder:
             theme=self.theme,
         )
 
+    def social_chips(self) -> list:
+        """Build the list of social 'comms channel' chips from config.
+
+        Each entry: {key, label, handle, quip, color, url, icon, seed}.
+        Only chips whose link is configured are included.
+        """
+        social = self.config.get("social", {})
+        term = self.config.get("terminal", {})
+        username = self.config["username"]
+
+        defs = [
+            {
+                "key": "github", "label": "GitHub", "handle": f"@{username}",
+                "quip": "home base · you are here",
+                "color": "#f0f3f8", "url": f"https://github.com/{username}",
+            },
+            {
+                "key": "linkedin", "label": "LinkedIn",
+                "handle": social.get("linkedin_handle", "João Marcos"),
+                "quip": "professional orbit", "color": "#4d9fff",
+                "url": social.get("linkedin_url"),
+            },
+            {
+                "key": "instagram", "label": "Instagram",
+                "handle": f"@{term.get('instagram', '')}",
+                "quip": "daily transmissions", "color": "#ff9d3d",
+                "url": term.get("instagram_url"),
+            },
+            {
+                "key": "whatsapp", "label": "WhatsApp",
+                "handle": term.get("whatsapp_handle", ""),
+                "quip": "instant signal · ping me",
+                "color": "#25d366", "url": term.get("whatsapp_url"),
+            },
+            {
+                "key": "email", "label": "Email",
+                "handle": social.get("email", ""),
+                "quip": "async channel · always open",
+                "color": "#ff5a5a",
+                "url": f"mailto:{social['email']}" if social.get("email") else None,
+            },
+        ]
+
+        chips = []
+        for d in defs:
+            if not d.get("url"):
+                continue
+            d["icon"] = SOCIAL_ICONS.get(d["key"], "")
+            d["seed"] = f"{username}_{d['key']}"
+            chips.append(d)
+        return chips
+
+    def render_social_chips(self) -> dict:
+        """Render each social chip to its own SVG. Returns {filename: svg}."""
+        return {
+            f"link-{c['key']}.svg": social_chip.render(chip=c, theme=self.theme)
+            for c in self.social_chips()
+        }
+
     def _terminal_data(self) -> dict:
         """Assemble neofetch-style, sectioned rows from config + fetched data."""
         profile = self.config.get("profile", {})
@@ -106,6 +166,20 @@ class SVGBuilder:
             lines.append({"type": "blank"})
             lines.append({"type": "section", "text": "Contact"})
             lines.extend(contact)
+
+        # --- education ---
+        edu = term.get("education", {}) or {}
+        edu_rows = []
+        if edu.get("course"):
+            edu_rows.append({"type": "leader", "label": "Course", "value": edu["course"]})
+        if edu.get("university"):
+            edu_rows.append({"type": "leader", "label": "University", "value": edu["university"]})
+        if edu.get("status"):
+            edu_rows.append({"type": "leader", "label": "Status", "value": edu["status"], "color": "axon_amber"})
+        if edu_rows:
+            lines.append({"type": "blank"})
+            lines.append({"type": "section", "text": "Education"})
+            lines.extend(edu_rows)
 
         # --- github stats ---
         lines.append({"type": "blank"})

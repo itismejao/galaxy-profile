@@ -341,6 +341,28 @@ def render(
     philosophy = profile.get("philosophy", "")
     initial = name[0].upper() if name else "?"
 
+    # Optional minimal mode: hide the name/role, keep just the galaxy + phrase.
+    gal = config.get("galaxy", {})
+    show_name = gal.get("show_name", True)
+    show_tagline = gal.get("show_tagline", True)
+
+    profile_text = ""
+    if show_name and name:
+        profile_text += (
+            f'\n  <text x="{CENTER_X}" y="26" text-anchor="middle" fill="{theme["text_bright"]}" '
+            f'font-size="20" font-weight="bold" font-family="sans-serif">{esc(name)}</text>'
+        )
+    if show_tagline and tagline:
+        profile_text += (
+            f'\n  <text x="{CENTER_X}" y="44" text-anchor="middle" fill="{theme["text_dim"]}" '
+            f'font-size="12" font-family="sans-serif">{esc(tagline)}</text>'
+        )
+    if philosophy:
+        profile_text += (
+            f'\n  <text x="{CENTER_X}" y="{HEIGHT - 12}" text-anchor="middle" fill="{theme["text_faint"]}" '
+            f'font-size="11" font-family="monospace" font-style="italic">{esc(philosophy)}</text>'
+        )
+
     arm_colors = resolve_arm_colors(galaxy_arms, theme)
 
     # ── Spiral geometry (Step 2) ──
@@ -493,8 +515,5 @@ def render(
   <!-- 11. Galaxy core -->
 {core}
 
-  <!-- 12. Profile text -->
-  <text x="{CENTER_X}" y="26" text-anchor="middle" fill="{theme['text_bright']}" font-size="20" font-weight="bold" font-family="sans-serif">{esc(name)}</text>
-  <text x="{CENTER_X}" y="44" text-anchor="middle" fill="{theme['text_dim']}" font-size="12" font-family="sans-serif">{esc(tagline)}</text>
-  <text x="{CENTER_X}" y="{HEIGHT - 12}" text-anchor="middle" fill="{theme['text_faint']}" font-size="11" font-family="monospace" font-style="italic">{esc(philosophy)}</text>
+  <!-- 12. Profile text -->{profile_text}
 </svg>'''
