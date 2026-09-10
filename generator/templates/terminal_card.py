@@ -8,17 +8,17 @@ Lines fade in sequentially with a blinking cursor to sell the "printing" feel.
 
 from generator.utils import esc
 
-WIDTH = 880
-PAD_TOP = 38
+WIDTH = 1000
+PAD_TOP = 40
 LINE_H = 22
-INFO_X = 356
-INFO_RIGHT = WIDTH - 34
+INFO_X = 470
+INFO_RIGHT = WIDTH - 36
 CHARW = 8.4          # monospace advance at font-size 14
 
-ASCII_X = 30
+ASCII_X = 40
 ASCII_TOP = 40
-ASCII_LH = 11.4
-ASCII_FS = 10.5
+ASCII_LH = 16.5
+ASCII_FS = 15
 
 LOC_ADD = "#3fb950"  # github green
 LOC_DEL = "#f85149"  # github red
@@ -101,10 +101,11 @@ def render(data: dict, theme: dict) -> str:
     )
     height = int(height)
 
-    # --- ASCII portrait ---
+    # --- ASCII portrait (vertically centered in the panel) ---
+    art_top = max(ASCII_TOP, (height - len(art) * ASCII_LH) / 2)
     art_rows = []
     for i, line in enumerate(art):
-        y = ASCII_TOP + (i + 1) * ASCII_LH
+        y = art_top + (i + 1) * ASCII_LH
         art_rows.append(
             f'    <text x="{ASCII_X}" y="{y:.1f}" xml:space="preserve" '
             f'class="reveal" style="animation-delay:{0.05 + i * 0.03:.2f}s" '

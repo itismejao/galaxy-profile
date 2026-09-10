@@ -87,33 +87,32 @@ stats:
 terminal:
   # ASCII portrait shown on the left (generated from your GitHub avatar).
   # Swap for any monospace ASCII art you like; blank = built-in galaxy motif.
-  ascii: |
-    i[[}{{1))))))1}{]?[11)1{{}{}[]??-i
-    l-?][}{{[>i~~!I;,II:,,l>?_????--_!
-    l~___+<l:`^"''^`'^' "'`^^"^,l__+~l
-    l<i<I,^''":^.     . '.'^"  .^l<~<I
-    !>I":'`^",^"^'. .`'..`I!.'ii''i>>;
-    !i".``,"`'.,"''^":;,,!+i)/LpX!ll!:
-    II"^.. ..` .,<1/jzvccQm0mk#Wkz!Il,
-    '''"''' `"^i}1uZdkh*B$$$$$&pn}<ii:
-    `'.'^:,`.,O8@Wa888B$$$$$$8bL|v|i>;
-    :`^";^`^ _$$$%$$$@@$$$$$$WhOraL<>I
-    l"..^^^,,!h$BB8@$MM8$$$$$$@Mm#$w};
-    I;`.:Il""IC@$$@@$W*&@@$$$$$$Mo$8b(
-    :;. `,!;`}qMW8%8B#oM8BB$$$$$Ba*zt?
-    !_i. `l''xM&#%8**&*M%@@$$$@$$#0v-I
-    ?j_'.'` ?a$8@$$qYp#8%8B$@%&8W0zf_!
-    1zt`.. >0@$8$$@8aZJLqa*oW&ohhdz{+!
-    l_+` ^?0%$WB$$@8W*dOXfcXOdmYOZ/~-!
-     .;]nZM$$$$$$$B&M###bYt}->>;iI!??i
-    (ma&@$$$$$$$$$$BWWM&#J|[~il,:!---!
-    L$$$$$$$$$$$$$$$$@Wm{' "i?}!;,^,^`
-    ]p$$$$$$$$$$$$$$Ba0~      .^";'..
-    .^-Yo$$$$$$$$$@&oku`         '"l`'
-    `"`';}Ua@$$$$$&#bt^            .,`
+  ascii: |2
+                         :::: :::
+                    :=+**o*++*+*+++=**=
+                   :=+*ooah%%%%%%hhhhao+
+                  :::-==++*ahh%%hhhhhaao-
+                  :::=+**-==*oo**+*ao*++=
+               ::::-::-=+=-+h%**o**ao*++-
+               :::=+++*oao+o%%oaha*+==+*-
+               :::=*ooaao*oa8%ha%8%haao+==-
+                ::=*oaahaoa%88%ha%8%%ho*++:
+                ::-*ah%h===ohaoa%%8%%hho+-
+                 ::+oaha*=-=+++o8%%%%%h*=
+                 ::=****ooa%hhah%%haoo*=:
+                 ::-++=-=++***+**ohao*=:
+                  ::-+*++**oooooaaaao+:
+                   ::=*******oahaoo*-::
+                  ::::=oahh%%%ha*=-::+h:
+                  :::::::=++**+-::::=ha:
+                  ::::::::::::::::=a8h:
+                  ::::::::::::::*h8%a:
+                    ::::::::::-a8h*-
+                     :::::::=oa*-:
+                     :::::-*o-
   os: "Arch Linux, Android, macOS"     # "OS:" line
   kernel: "Techlead Backend / DevOps"  # "Kernel:" line (your role)
-  ide: "VSCode, IntelliJ IDEA, Cursor" # "IDE:" line
+  ide: "VSCode"                        # "IDE:" line
   languages_human: "Portuguese, English"
   instagram: "itismejao"
   born: "2019-01-01"                    # start date used for "Uptime:" (YYYY-MM-DD)
