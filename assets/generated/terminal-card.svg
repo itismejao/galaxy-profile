@@ -212,8 +212,8 @@
     <text x="470" y="393" class="reveal" style="animation-delay:1.73s" fill="#64748b" font-size="13" font-family="monospace" letter-spacing="1">&#9472; GitHub Stats</text>
     <g class="reveal" style="animation-delay:1.82s">
       <text x="470" y="415" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">&#183; </tspan><tspan fill="#ffb020" font-weight="bold">Repos:</tspan></text>
-      <text x="545.6" y="415" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">..............................................</text>
-      <text x="964" y="415" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">31</text>
+      <text x="545.6" y="415" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">...........................</text>
+      <text x="964" y="415" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">42  {Contributed: 17}</text>
     </g>
     <g class="reveal" style="animation-delay:1.91s">
       <text x="470" y="437" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">&#183; </tspan><tspan fill="#ffb020" font-weight="bold">Stars:</tspan></text>
@@ -222,8 +222,8 @@
     </g>
     <g class="reveal" style="animation-delay:2.00s">
       <text x="470" y="459" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">&#183; </tspan><tspan fill="#ffb020" font-weight="bold">Commits:</tspan></text>
-      <text x="562.4" y="459" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">.............................................</text>
-      <text x="964" y="459" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">0</text>
+      <text x="562.4" y="459" fill="#1a2332" font-size="14" font-family="monospace" letter-spacing="1">..........................................</text>
+      <text x="964" y="459" text-anchor="end" fill="#00d4ff" font-size="14" font-family="monospace">2.7k</text>
     </g>
     <g class="reveal" style="animation-delay:2.09s">
       <text x="470" y="481" xml:space="preserve" font-size="14" font-family="monospace"><tspan fill="#ffb020">&#183; </tspan><tspan fill="#ffb020" font-weight="bold">Followers:</tspan></text>
